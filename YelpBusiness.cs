@@ -83,7 +83,7 @@ namespace YelpJSON {
 
         static void AddBusiness(string json) {
             business = JsonConvert.DeserializeObject<YelpBusiness>(json);
-            bizTable.Rows.Add(new Object[] {
+            bizTable.Rows.Add(new object[] {
                 business.business_id,
                 business.name,
                 business.address,
@@ -116,14 +116,15 @@ namespace YelpJSON {
             if (root != "") root += ".";
             var attribs = JsonConvert.DeserializeObject<Attrib>(json);
             foreach (var attrib in attribs.data) {
+                string attribute = root + attrib.Key;
                 if (attrib.Value.Type == JTokenType.Object) {
-                    ParseAttributes(attrib.Key, attrib.Value.ToString());
+                    ParseAttributes(attribute, attrib.Value.ToString());
                 }
                 else {
-                    attHash.Add(root + attrib.Key);
+                    attHash.Add(attribute);
                     bizatts.Add(new BizAttribute {
                         business_id = business.business_id,
-                        attribute = root + attrib.Key,
+                        attribute = attribute,
                         value = attrib.Value.ToString()
                     });
                 }
@@ -131,23 +132,18 @@ namespace YelpJSON {
         }
 
         static void AddCategories() {
-            foreach (var cat in catHash) {
-                catTable.Rows.Add(new Object[] { cat });
-            }
+            foreach (var cat in catHash) catTable.Rows.Add(new object[] { cat });
             Console.WriteLine($"{DateTime.Now} : Writing {catTable.Rows.Count,0:n0} category records");
             Program.WriteTable(catTable, "Categories");
         }
 
         static void AddAttributes() {
-            foreach (var att in attHash) {
-                attTable.Rows.Add(new Object[] { att });
-            }
+            foreach (var att in attHash) attTable.Rows.Add(new object[] { att });
             Console.WriteLine($"{DateTime.Now} : Writing {attTable.Rows.Count,0:n0} attribute records");
             Program.WriteTable(attTable, "Attributes");
         }
 
         static void AddBusinessCategories() {
-            Console.WriteLine($"{DateTime.Now} : Loading category records");
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Categories", Program.sqlConnection);
             DataTable categories = new DataTable();
             da.Fill(categories);
@@ -157,7 +153,7 @@ namespace YelpJSON {
                 );
 
             foreach (var bizcat in bizcats) {
-                bizcatTable.Rows.Add(new Object[] {
+                bizcatTable.Rows.Add(new object[] {
                     bizcat.business_id,
                     catdict[bizcat.category]
                 });
@@ -167,7 +163,6 @@ namespace YelpJSON {
         }
 
         static void AddBusinessAttributes() {
-            Console.WriteLine($"{DateTime.Now} : Loading attribute records");
             SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Attributes", Program.sqlConnection);
             DataTable attributes = new DataTable();
             da.Fill(attributes);
@@ -177,7 +172,7 @@ namespace YelpJSON {
                 );
 
             foreach (var bizatt in bizatts) {
-                bizattTable.Rows.Add(new Object[] {
+                bizattTable.Rows.Add(new object[] {
                     bizatt.business_id,
                     attdict[bizatt.attribute],
                     bizatt.value

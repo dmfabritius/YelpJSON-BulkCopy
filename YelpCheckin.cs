@@ -23,7 +23,7 @@ namespace YelpJSON {
                     var checkin = JsonConvert.DeserializeObject<YelpCheckin>(json);
                     var dates = checkin.date.Split(',');
                     foreach (var d in dates) {
-                        checkins.Rows.Add(new Object[] {
+                        checkins.Rows.Add(new object[] {
                             checkin.business_id,
                             DateTime.Parse(d)
                         });

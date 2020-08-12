@@ -1,0 +1,9 @@
+delete Tips
+delete Checkins
+delete UserFriends
+delete Users
+delete BusinessAttributes
+delete BusinessCategories
+delete Businesses
+delete Attributes
+delete Categories

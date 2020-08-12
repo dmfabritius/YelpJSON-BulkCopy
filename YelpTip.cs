@@ -27,7 +27,7 @@ namespace YelpJSON {
             using (StreamReader infile = new StreamReader("yelp_tip.json")) {
                 while ((json = infile.ReadLine()) != null) {
                     var tip = JsonConvert.DeserializeObject<YelpTip>(json);
-                    tips.Rows.Add(new Object[] {
+                    tips.Rows.Add(new object[] {
                         tip.business_id,
                         tip.user_id,
                         tip.date,

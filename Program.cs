@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -6,11 +7,10 @@ namespace YelpJSON {
 
     class Program {
 
-        static public SqlConnection sqlConnection;
+        static readonly public SqlConnection sqlConnection =
+            new SqlConnection(ConfigurationManager.ConnectionStrings["YelpDB"].ConnectionString);
 
         static void Main() {
-            sqlConnection = new SqlConnection(
-                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=YelpDB;Integrated Security=True");
             sqlConnection.Open();
 
             YelpUser.AddUsers();
@@ -25,7 +25,7 @@ namespace YelpJSON {
         }
 
         public static void WriteTable(DataTable table, string tableName) {
-            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(Program.sqlConnection)) {
+            using (SqlBulkCopy bulkCopy = new SqlBulkCopy(sqlConnection)) {
                 bulkCopy.DestinationTableName = tableName;
                 foreach (DataColumn col in table.Columns) {
                     bulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName);

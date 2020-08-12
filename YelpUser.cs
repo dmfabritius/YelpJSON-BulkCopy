@@ -41,7 +41,7 @@ namespace YelpJSON {
             using (StreamReader infile = new StreamReader("yelp_user.json")) {
                 while ((json = infile.ReadLine()) != null) {
                     var user = JsonConvert.DeserializeObject<YelpUser>(json);
-                    users.Rows.Add(new Object[] {
+                    users.Rows.Add(new object[] {
                             user.user_id,
                             user.name,
                             user.yelping_since,
@@ -54,7 +54,7 @@ namespace YelpJSON {
                         });
 
                     foreach (var friend in user.friends) {
-                        friends.Rows.Add(new Object[] {
+                        friends.Rows.Add(new object[] {
                             user.user_id,
                             friend
                         });
