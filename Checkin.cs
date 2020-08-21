@@ -5,17 +5,21 @@ using Newtonsoft.Json;
 
 namespace YelpJSON {
 
-    class YelpCheckin {
+    class Checkin {
+        public string BusinessID;
+        public DateTime CheckinDate;
+    }
 
+    class YelpCheckin {
         public string business_id;
-        public string date;
+        public string date; // single string with multiple comma-separated dates
+    }
+
+    class CheckinParser {
 
         static public void AddCheckins() {
             string json;
-
-            DataTable checkins = new DataTable();
-            checkins.Columns.Add("BusinessID", typeof(string));
-            checkins.Columns.Add("CheckinDate", typeof(DateTime));
+            DataTable checkins = Program.CreateTable<Checkin>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing checkin json");
             using (StreamReader infile = new StreamReader("yelp_checkin.json")) {

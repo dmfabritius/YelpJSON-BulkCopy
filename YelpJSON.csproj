@@ -49,10 +49,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YelpBusiness.cs" />
-    <Compile Include="YelpCheckin.cs" />
-    <Compile Include="YelpTip.cs" />
-    <Compile Include="YelpUser.cs" />
+    <Compile Include="Business.cs" />
+    <Compile Include="Checkin.cs" />
+    <Compile Include="Tip.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

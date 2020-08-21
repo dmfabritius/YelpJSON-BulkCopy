@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace YelpJSON {
 
@@ -13,15 +14,31 @@ namespace YelpJSON {
         static void Main() {
             sqlConnection.Open();
 
-            YelpUser.AddUsers();
-            YelpBusiness.AddBusinesses();
-            YelpTip.AddTips();
-            YelpCheckin.AddCheckins();
+            UserParser.AddUsers();
+            BusinessParser.AddBusinesses();
+            TipParser.AddTips();
+            CheckinParser.AddCheckins();
 
             sqlConnection.Dispose();
 
             Console.WriteLine($"{DateTime.Now} : Import complete.");
             Console.ReadLine();
+        }
+
+        public static DataTable CreateTable<T>() {
+            DataTable table = new DataTable();
+            foreach (FieldInfo info in typeof(T).GetFields()) {
+                table.Columns.Add(new DataColumn(info.Name, info.FieldType));
+            }
+            return table;
+        }
+
+        public static void AddRow(DataTable table, object item) {
+            DataRow row = table.NewRow();
+            foreach (FieldInfo info in item.GetType().GetFields()) {
+                row[info.Name] = info.GetValue(item);
+            }
+            table.Rows.Add(row);
         }
 
         public static void WriteTable(DataTable table, string tableName) {
