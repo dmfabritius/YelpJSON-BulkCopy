@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -19,7 +18,7 @@ namespace YelpJSON {
 
         static public void AddCheckins() {
             string json;
-            DataTable checkins = Program.CreateTable<Checkin>();
+            Table<Checkin> checkins = new Table<Checkin>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing checkin json");
             using (StreamReader infile = new StreamReader("yelp_checkin.json")) {
@@ -36,7 +35,7 @@ namespace YelpJSON {
             }
 
             Console.WriteLine($"{DateTime.Now} : Writing {checkins.Rows.Count,0:n0} checkin records");
-            Program.WriteTable(checkins, "Checkins");
+            checkins.WriteTable("Checkins");
         }
     }
 }

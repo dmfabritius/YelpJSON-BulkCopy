@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -31,26 +30,26 @@ namespace YelpJSON {
 
         static public void AddUsers() {
             string json;
-            DataTable users = Program.CreateTable<User>();
-            DataTable friends = Program.CreateTable<UserFriend>();
+            Table<User> users = new Table<User>();
+            Table<UserFriend> friends = new Table<UserFriend>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing user json");
             using (StreamReader infile = new StreamReader("yelp_user.json")) {
                 while ((json = infile.ReadLine()) != null) {
-                    Program.AddRow(users, JsonConvert.DeserializeObject<User>(json));
-                    var yelpFriends = JsonConvert.DeserializeObject<YelpFriends>(json);
-                    foreach (var friendID in yelpFriends.friends) {
+                    users.AddRow(JsonConvert.DeserializeObject<User>(json));
+                    var user = JsonConvert.DeserializeObject<YelpFriends>(json);
+                    foreach (var friend_id in user.friends) {
                         friends.Rows.Add(new object[] {
-                            yelpFriends.user_id,
-                            friendID
+                            user.user_id,
+                            friend_id
                         });
                     }
                 }
             }
             Console.WriteLine($"{DateTime.Now} : Writing {users.Rows.Count,0:n0} user records");
-            Program.WriteTable(users, "Users");
+            users.WriteTable("Users");
             Console.WriteLine($"{DateTime.Now} : Writing {friends.Rows.Count,0:n0} friends records");
-            Program.WriteTable(friends, "UserFriends");
+            friends.WriteTable("UserFriends");
         }
     }
 }

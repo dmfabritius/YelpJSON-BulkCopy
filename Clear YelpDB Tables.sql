@@ -1,9 +1,9 @@
-delete Tips
-delete Checkins
-delete UserFriends
-delete Users
-delete BusinessAttributes
-delete BusinessCategories
-delete Businesses
-delete Attributes
-delete Categories
+delete from tips;
+delete from checkins;
+delete from userfriends;
+delete from users;
+delete from businessattributes;
+delete from businesscategories;
+delete from businesses;
+delete from attributes;
+delete from categories;

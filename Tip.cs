@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -14,18 +13,19 @@ namespace YelpJSON {
     }
 
     class TipParser {
+
         static public void AddTips() {
             string json;
-            DataTable tips = Program.CreateTable<Tip>();
+            Table<Tip> tips = new Table<Tip>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing tip json");
             using (StreamReader infile = new StreamReader("yelp_tip.json")) {
                 while ((json = infile.ReadLine()) != null) {
-                    Program.AddRow(tips, JsonConvert.DeserializeObject<Tip>(json));
+                    tips.AddRow(JsonConvert.DeserializeObject<Tip>(json));
                 }
             }
             Console.WriteLine($"{DateTime.Now} : Writing {tips.Rows.Count,0:n0} tip records");
-            Program.WriteTable(tips, "Tips");
+            tips.WriteTable("Tips");
         }
     }
 }

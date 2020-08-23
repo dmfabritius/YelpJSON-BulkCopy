@@ -17,21 +17,21 @@ DECLARE @YelpTips TABLE (json_data varchar(max));
 DECLARE @YelpCheckins TABLE (json_data varchar(max));
 
 INSERT INTO @YelpUsers
-       SELECT json_data
-       FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_user.JSON',
-                       FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') U;
+  SELECT json_data
+  FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_user.JSON',
+                  FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') U;
 INSERT INTO @YelpBusinesses
-       SELECT json_data
-       FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_business.JSON',
-                       FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') B;
+  SELECT json_data
+  FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_business.JSON',
+                  FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') B;
 INSERT INTO @YelpTips
-       SELECT json_data
-       FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_tip.JSON',
-                       FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') T;
+  SELECT json_data
+  FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_tip.JSON',
+                  FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') T;
 INSERT INTO @YelpCheckins
-       SELECT json_data
-       FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_checkin.JSON',
-                       FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') C;
+  SELECT json_data
+  FROM OPENROWSET(BULK 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_checkin.JSON',
+                  FORMATFILE = 'C:\Users\dmfab\Documents\Visual Studio Projects\WSU\WSU-CS451\YelpJSON-BulkCopy\yelp_format.xml') C;
 
 INSERT INTO Users (UserID, Name, YelpingSince, AverageStars, Fans, Cool, Funny, Useful, TipCount) 
 SELECT JsonUsers.*
