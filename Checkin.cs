@@ -16,7 +16,7 @@ namespace YelpJSON {
 
     class CheckinParser {
 
-        static public void AddCheckins() {
+        static public void Parse() {
             string json;
             Table<Checkin> checkins = new Table<Checkin>();
 
@@ -33,7 +33,6 @@ namespace YelpJSON {
                     }
                 }
             }
-
             Console.WriteLine($"{DateTime.Now} : Writing {checkins.Rows.Count,0:n0} checkin records");
             checkins.WriteTable("Checkins");
         }

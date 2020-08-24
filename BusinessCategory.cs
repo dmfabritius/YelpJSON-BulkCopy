@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using Newtonsoft.Json;
-using Npgsql;
 
 namespace YelpJSON {
 
@@ -14,7 +12,7 @@ namespace YelpJSON {
     }
 
     class Category {
-        // CategoryID is auto-generated
+        public Identity CategoryID;
         public string Name;
     }
 
@@ -46,16 +44,12 @@ namespace YelpJSON {
 
         public static void Add() {
             Table<Category> cats = new Table<Category>();
-            foreach (var cat in catHash) cats.Rows.Add(new object[] { cat });
+            foreach (var cat in catHash) cats.Rows.Add(new object[] { 0, cat });
             Console.WriteLine($"{DateTime.Now} : Writing {cats.Rows.Count,0:n0} category records");
             cats.WriteTable("Categories");
 
-            DataTable categories = new DataTable();
-            using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Categories", Program.sqlConnection))
-                da.Fill(categories);
-            //using (NpgsqlDataAdapter da = new NpgsqlDataAdapter("SELECT * FROM Categories", Program.pgConnection))
-            //    da.Fill(categories);
-
+            Table<Category> categories = new Table<Category>();
+            categories.Fill("SELECT * FROM Categories");
             var catdict = categories.AsEnumerable().ToDictionary(
                     row => row["Name"].ToString(),
                     row => Int32.Parse(row["CategoryID"].ToString())
@@ -65,7 +59,7 @@ namespace YelpJSON {
             foreach (var bizcat in bizcats) {
                 businessCategories.Rows.Add(new object[] {
                     bizcat.business_id,
-                    catdict[bizcat.category]
+                    catdict[bizcat.category] // use category name to lookup CategoryID
                 });
             }
             Console.WriteLine($"{DateTime.Now} : Writing {businessCategories.Rows.Count,0:n0} business category records");

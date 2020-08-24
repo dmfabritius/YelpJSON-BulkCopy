@@ -14,7 +14,7 @@ namespace YelpJSON {
 
     class TipParser {
 
-        static public void AddTips() {
+        static public void Parse() {
             string json;
             Table<Tip> tips = new Table<Tip>();
 

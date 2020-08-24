@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace YelpJSON {
 
@@ -25,7 +20,7 @@ namespace YelpJSON {
 
     class BusinessParser {
 
-        static public void AddBusinesses() {
+        static public void Parse() {
             string json;
             Table<Business> businesses = new Table<Business>();
 

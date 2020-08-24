@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Npgsql;
 
 namespace YelpJSON {
 
@@ -16,7 +14,7 @@ namespace YelpJSON {
     }
 
     class Attribute {
-        // AttributeID is auto-generated
+        public Identity AttributeID;
         public string Name;
     }
 
@@ -68,17 +66,12 @@ namespace YelpJSON {
 
         public static void Add() {
             Table<Attribute> atts = new Table<Attribute>();
-            foreach (var att in attHash) atts.Rows.Add(new object[] { att });
+            foreach (var att in attHash) atts.Rows.Add(new object[] { 0, att });
             Console.WriteLine($"{DateTime.Now} : Writing {atts.Rows.Count,0:n0} attribute records");
             atts.WriteTable("Attributes");
 
-
-            DataTable attributes = new DataTable();
-            using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Attributes", Program.sqlConnection))
-                da.Fill(attributes);
-            //using (NpgsqlDataAdapter da = new NpgsqlDataAdapter("SELECT * FROM Attributes", Program.pgConnection))
-            //    da.Fill(attributes);
-
+            Table<Attribute> attributes = new Table<Attribute>();
+            attributes.Fill("SELECT * FROM Attributes");
             var attdict = attributes.AsEnumerable().ToDictionary(
                 row => row["Name"].ToString(),
                 row => Int32.Parse(row["AttributeID"].ToString())
@@ -88,7 +81,7 @@ namespace YelpJSON {
             foreach (var bizatt in bizatts) {
                 businessAttributes.Rows.Add(new object[] {
                     bizatt.business_id,
-                    attdict[bizatt.attribute],
+                    attdict[bizatt.attribute], // use attribute name to lookup AttributeID
                     bizatt.value
                 });
             }

@@ -28,7 +28,7 @@ namespace YelpJSON {
 
     class UserParser {
 
-        static public void AddUsers() {
+        static public void Parse() {
             string json;
             Table<User> users = new Table<User>();
             Table<UserFriend> friends = new Table<UserFriend>();
