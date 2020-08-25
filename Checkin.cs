@@ -7,21 +7,18 @@ namespace YelpJSON {
     class Checkin {
         public string BusinessID;
         public DateTime CheckinDate;
-    }
 
-    class YelpCheckin {
-        public string business_id;
-        public string date; // single string with multiple comma-separated dates
-    }
-
-    class CheckinParser {
+        class YelpCheckin {
+            public string business_id;
+            public string date; // single string with multiple comma-separated dates
+        }
 
         static public void Parse() {
-            string json;
             Table<Checkin> checkins = new Table<Checkin>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing checkin json");
             using (StreamReader infile = new StreamReader("yelp_checkin.json")) {
+                string json;
                 while ((json = infile.ReadLine()) != null) {
                     var checkin = JsonConvert.DeserializeObject<YelpCheckin>(json);
                     var dates = checkin.date.Split(',');

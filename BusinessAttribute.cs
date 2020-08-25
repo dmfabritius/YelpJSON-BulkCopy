@@ -65,12 +65,12 @@ namespace YelpJSON {
         }
 
         public static void Add() {
-            Table<Attribute> atts = new Table<Attribute>();
-            foreach (var att in attHash) atts.Rows.Add(new object[] { 0, att });
-            Console.WriteLine($"{DateTime.Now} : Writing {atts.Rows.Count,0:n0} attribute records");
-            atts.WriteTable("Attributes");
-
             Table<Attribute> attributes = new Table<Attribute>();
+            foreach (var att in attHash) attributes.Rows.Add(new object[] { 0, att });
+            Console.WriteLine($"{DateTime.Now} : Writing {attributes.Rows.Count,0:n0} attribute records");
+            attributes.WriteTable("Attributes"); // insert into database and populate AttributeID field
+
+            attributes.Clear();
             attributes.Fill("SELECT * FROM Attributes");
             var attdict = attributes.AsEnumerable().ToDictionary(
                 row => row["Name"].ToString(),

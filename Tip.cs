@@ -10,16 +10,13 @@ namespace YelpJSON {
         [JsonProperty("date")] public DateTime TipDate;
         [JsonProperty("likes")] public int Likes;
         [JsonProperty("text")] public string Text;
-    }
-
-    class TipParser {
 
         static public void Parse() {
-            string json;
             Table<Tip> tips = new Table<Tip>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing tip json");
             using (StreamReader infile = new StreamReader("yelp_tip.json")) {
+                string json;
                 while ((json = infile.ReadLine()) != null) {
                     tips.AddRow(JsonConvert.DeserializeObject<Tip>(json));
                 }

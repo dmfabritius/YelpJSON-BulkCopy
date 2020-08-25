@@ -16,16 +16,13 @@ namespace YelpJSON {
         [JsonProperty("stars")] public float Stars;
         [JsonProperty("review_count")] public int ReviewCount;
         [JsonProperty("is_open")] public int IsOpen;
-    }
-
-    class BusinessParser {
 
         static public void Parse() {
-            string json;
             Table<Business> businesses = new Table<Business>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing business json");
             using (StreamReader infile = new StreamReader("yelp_business.json")) {
+                string json;
                 while ((json = infile.ReadLine()) != null) {
                     businesses.AddRow(JsonConvert.DeserializeObject<Business>(json));
                     BusinessAttributes.Parse(json);

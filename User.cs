@@ -14,27 +14,24 @@ namespace YelpJSON {
         [JsonProperty("funny")] public int Funny;
         [JsonProperty("useful")] public int Useful;
         [JsonProperty("tipcount")] public int TipCount;
-    }
 
-    class UserFriend {
-        public string UserID;
-        public string FriendID;
-    }
+        class UserFriend {
+            public string UserID;
+            public string FriendID;
+        }
 
-    class YelpFriends {
-        public string user_id;
-        public string[] friends;
-    }
-
-    class UserParser {
+        class YelpFriends {
+            public string user_id;
+            public string[] friends;
+        }
 
         static public void Parse() {
-            string json;
             Table<User> users = new Table<User>();
             Table<UserFriend> friends = new Table<UserFriend>();
 
             Console.WriteLine($"{DateTime.Now} : Parsing user json");
             using (StreamReader infile = new StreamReader("yelp_user.json")) {
+                string json;
                 while ((json = infile.ReadLine()) != null) {
                     users.AddRow(JsonConvert.DeserializeObject<User>(json));
                     var user = JsonConvert.DeserializeObject<YelpFriends>(json);

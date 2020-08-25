@@ -6,10 +6,10 @@ namespace YelpJSON {
     class Program {
 
         static void Main() {
-            UserParser.Parse();
-            BusinessParser.Parse();
-            TipParser.Parse();
-            CheckinParser.Parse();
+            User.Parse();
+            Business.Parse();
+            Tip.Parse();
+            Checkin.Parse();
 
             Console.WriteLine($"{DateTime.Now} : * Import complete *");
             Console.Write("Press any key to exit.");

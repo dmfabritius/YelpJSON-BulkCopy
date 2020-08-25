@@ -43,12 +43,12 @@ namespace YelpJSON {
         }
 
         public static void Add() {
-            Table<Category> cats = new Table<Category>();
-            foreach (var cat in catHash) cats.Rows.Add(new object[] { 0, cat });
-            Console.WriteLine($"{DateTime.Now} : Writing {cats.Rows.Count,0:n0} category records");
-            cats.WriteTable("Categories");
-
             Table<Category> categories = new Table<Category>();
+            foreach (var cat in catHash) categories.Rows.Add(new object[] { 0, cat });
+            Console.WriteLine($"{DateTime.Now} : Writing {categories.Rows.Count,0:n0} category records");
+            categories.WriteTable("Categories"); // insert into database and populate CategoryID field
+
+            categories.Clear();
             categories.Fill("SELECT * FROM Categories");
             var catdict = categories.AsEnumerable().ToDictionary(
                     row => row["Name"].ToString(),
